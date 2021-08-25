@@ -1,12 +1,17 @@
 from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap
+
+
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
 from sqlalchemy import desc
 
-from data import get_selection_options, get_movie_details
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
+from flask_wtf import FlaskForm
+
+
+
+from get_data import get_selection_options, get_movie_details
 
 
 # Configure APP
@@ -109,7 +114,7 @@ def add_movie():
     return render_template("add.html",form=form)
 
 
-#TODO: Check if movie in database already
+
 
 @app.route("/find")
 def find_movie_details():
