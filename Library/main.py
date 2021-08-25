@@ -1,9 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for,request
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
-import pathlib
-
 # Create Application
+
 app = Flask(__name__)
 
 #Configure Database
@@ -15,6 +14,7 @@ db = SQLAlchemy(app)
 # Create the Table (if it doesn't exit)
 
 class Book(db.Model):
+    
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(75), nullable=False, unique=True)
     author = db.Column(db.String(50), nullable=False)
@@ -28,6 +28,9 @@ class Book(db.Model):
 db.create_all()
 
 
+
+
+#Routes
 
 
 @app.route('/')
