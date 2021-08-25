@@ -2,7 +2,9 @@ from flask import Flask, render_template, request, url_for, redirect, flash, sen
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
+import os
 
+#CREATE AND CONFIGURE FLASK APP and SQLite DB#
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'secret-key-goes-here'
@@ -10,6 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+#Load and initialize flask-login manger#
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -25,9 +28,13 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
-# db.create_all()
+
+if not os.path.isfile("users.db"):
+    db.create_all()
 
 
+
+#ROUTES#
 @app.route('/')
 def home():
     return render_template("index.html", logged_in = current_user.is_authenticated)
@@ -108,6 +115,7 @@ def logout():
     return redirect(url_for('home'))
 
 
+# Secret Page
 @app.route('/download')
 @login_required
 def download():
